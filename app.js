@@ -37,7 +37,15 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen(27017);
-app.listen(5000,function(){
-  console.group('server start');
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+const PORT = process.env.PORT || 3000;
+
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('a MongoDB 连接成功'))
+    .catch(err => console.error(' MongoDB 连接失败:', err));
+
+app.listen(PORT, () => {
+    console.log(`Server is running，运行在 http://localhost:${PORT}`);
 });
