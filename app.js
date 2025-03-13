@@ -8,27 +8,27 @@ const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-// 中间件设置
-app.use(express.json());        // 解析 JSON 请求体
-app.use(cors());                // 允许跨域请求
+// Middleware Settings
+app.use(express.json());        // Parsing JSON Request Body
+app.use(cors());                // Allow cross-domain requests
 
 // 连接 MongoDB 数据库
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    console.log('✅ MongoDB connected');
-    // 只有当数据库连接成功后才启动服务器
+    console.log('MongoDB connected');
+    // Start the server only when the database connection is successful
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
   })
 
   .catch(err => {
-    console.error('❌ MongoDB connection error:', err);
+    console.error('MongoDB connection error:', err);
     process.exit(1);
   });
   app.get("/", (req, res) => {
     res.send("Server is running.");
   });
   
-// 路由配置
+// Routing Configuration
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
