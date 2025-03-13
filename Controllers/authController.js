@@ -2,29 +2,29 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// 注册新用户并返回 JWT
+// Register new user and return to JWT
 exports.register = async (req, res) => {
   try {
     const { identifier, password, role } = req.body;
-    // 简单校验
+    // simple calibration
     if (!identifier || !password) {
       return res.status(400).json({ message: 'Please provide identifier and password' });
     }
-    // 检查用户是否已存在
+    // Check if the user already exists
     const userExists = await User.findOne({ identifier });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
     }
-    // 哈希密码
+    // hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    // 创建新用户
+    // Create New User
     const newUser = await User.create({
       identifier,
       password: hashedPassword,
       role: role || 'user'
     });
-    // 生成 JWT Token
+    // Generate JWT Token
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     return res.status(201).json({ token });
   } catch (error) {
@@ -33,21 +33,21 @@ exports.register = async (req, res) => {
   }
 };
 
-// 用户登录并返回 JWT
+// User login and return JWT
 exports.login = async (req, res) => {
   try {
     const { identifier, password } = req.body;
-    // 检查用户是否存在
+    // Check if the user exists
     const user = await User.findOne({ identifier });
     if (!user) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
-    // 校验密码
+    // Verify Password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
-    // 生成 JWT Token
+    // Generate JWT Token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     return res.json({ token });
   } catch (error) {
