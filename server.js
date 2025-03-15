@@ -1,20 +1,32 @@
+<<<<<<< HEAD
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+=======
+const mongoose = require('mongoose');
+>>>>>>> database
 const dotenv = require('dotenv');
 
 dotenv.config();
 
+<<<<<<< HEAD
 const app = express();
 app.use(express.json());
 
 // Connect to MongoDB
+=======
+// connect MongoDB
+>>>>>>> database
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("✅ MongoDB Connected"))
     .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
+<<<<<<< HEAD
 // Define User Schema & Model
+=======
+// define usersusers Schema & Model
+>>>>>>> database
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -27,6 +39,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+<<<<<<< HEAD
 // User Registration API
 app.post('/api/register', async (req, res) => {
     try {
@@ -91,3 +104,7 @@ app.post('/api/login', async (req, res) => {
 app.listen(process.env.PORT || 5000, () => {
     console.log(`🚀 Server running on port ${process.env.PORT || 5000}`);
 });
+=======
+
+module.exports = { mongoose, User };
+>>>>>>> database
