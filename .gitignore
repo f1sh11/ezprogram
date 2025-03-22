@@ -1,0 +1,5 @@
+# 忽略 Next.js 生成的 `.next/` 目录
+.next/
+
+# 忽略 `node_modules/` 依赖文件夹（不要提交）
+node_modules/
