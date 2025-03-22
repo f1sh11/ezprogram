@@ -1,25 +1,12 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+// server.js
+require('dotenv').config();
+const app = require('./app');
+const connectDB = require('./config/db');
 
-dotenv.config();
+const PORT = process.env.PORT || 5000;
 
-// connect MongoDB
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("✅ MongoDB Connected"))
-    .catch(err => console.error("❌ MongoDB Connection Error:", err));
-
-// define usersusers Schema & Model
-const userSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    role: { type: String, default: 'user' },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-    lastLogin: { type: Date }
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  });
 });
-
-const User = mongoose.model('User', userSchema);
-
-
-module.exports = { mongoose, User };

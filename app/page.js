@@ -30,14 +30,26 @@ export default function Home() {
                     <Image src="/curtinlogo.png.png" alt="Curtin Singapore" width={60} height={60} />
                     <h1 className="text-2xl font-light">Curtin Singapore</h1>
                 </div>
-                <div className="flex space-x-12">
+
+                <div className="flex space-x-12 items-center">
                     <button onClick={() => handleMenuClick("/")} className="hover:text-yellow-500">Home</button>
                     <button onClick={() => handleMenuClick("/community")} className="hover:text-yellow-500">Community</button>
                     <button onClick={() => handleMenuClick("/profile")} className="hover:text-yellow-500">Profile</button>
                     <button onClick={() => handleMenuClick("/chat")} className="hover:text-yellow-500">Chat</button>
                     <button onClick={() => handleMenuClick("/resources")} className="hover:text-yellow-500">Resource</button>
+
+                    
+                    {!isLoggedIn && (
+                    <button 
+                        onClick={() => router.push("/login")}
+                        className="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-500 transition"
+                    >
+                        Login
+                    </button>
+                    )}
                 </div>
             </nav>
+
 
             {/* Hero Section */}
             <div className="relative h-screen flex items-center bg-cover bg-center px-0" style={{ backgroundImage: "url('/Curtin1.jpg.webp')" }}>
@@ -55,8 +67,7 @@ export default function Home() {
                     {!isLoggedIn && (
                         <div className="relative w-200 h-0">
                             <div className="absolute w-0 h-0 border-l-[300px] border-l-transparent border-b-[300px] border-b-yellow-500 border-r-[300px] border-r-transparent rotate-45"></div>
-                            <button onClick={() => router.push("/login")} className="absolute top-16 left-20 text-black font-light text-3xl">
-                                Login
+                            <button disabled className="absolute top-16 left-20 text-black font-light text-3xl">
                             </button>
                         </div>
                     )}
